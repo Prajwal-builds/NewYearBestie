@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Happy New Year 2027 ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #090b25, #24153e, #673b79);
+            color: white;
+            font-family: Georgia, serif;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        #stars,
+        #fireworks {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #stars {
+            z-index: 0;
+        }
+
+        #fireworks {
+            z-index: 5;
+        }
+
+        .moon {
+            position: fixed;
+            top: 40px;
+            right: 12%;
+            width: 70px;
+            height: 70px;
+            background: #fff4d0;
+            border-radius: 50%;
+            box-shadow: 0 0 40px #fff1b0;
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 70px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: clamp(38px, 8vw, 65px);
+            color: #ffe3ff;
+            text-shadow: 0 0 20px #d9a1ff;
+            margin: 20px 0;
+        }
+
+        .subtitle {
+            color: #eadbff;
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        .glow {
+            color: #ffc9e9;
+            text-shadow: 0 0 12px #ff9ad7;
+        }
+
+        button {
+            border: 1px solid #f1caff;
+            border-radius: 30px;
+            padding: 13px 25px;
+            margin: 12px;
+            color: white;
+            background: linear-gradient(120deg, #a56dbb, #62418e);
+            cursor: pointer;
+            font-size: 15px;
+            box-shadow: 0 0 20px #c18cff65;
+            transition: .3s;
+        }
+
+        button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 30px #e4aaff;
+        }
+
+        .envelope-area {
+            margin: 55px 0 25px;
+            perspective: 900px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 290px;
+            max-width: 78vw;
+            height: 185px;
+            background: linear-gradient(140deg, #b68ad1, #80529d);
+            border-radius: 6px;
+            box-shadow: 0 0 35px #d6a4ff80;
+            cursor: pointer;
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #e4c9f7, #9669b9);
+            clip-path: polygon(0 0, 50% 58%, 100% 0);
+            transform-origin: top;
+            transition: transform 1s;
+            z-index: 3;
+        }
+
+        .envelope::after {
+            content: "❤️";
+            position: absolute;
+            top: 48%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            z-index: 4;
+        }
+
+        .envelope.open::before {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-label {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            z-index: 4;
+            letter-spacing: 2px;
+            font-size: 13px;
+        }
+
+        .letter,
+        .hidden-message,
+        .proposal,
+        .final-message {
+            display: none;
+            width: min(560px, 95%);
+            padding: 28px 22px;
+            margin: 25px auto;
+            background: #ffffff17;
+            backdrop-filter: blur(12px);
+            border: 1px solid #e6c6ff;
+            border-radius: 20px;
+            box-shadow: 0 0 35px #c08aff35;
+            animation: appear 1s ease;
+            line-height: 1.9;
+        }
+
+        .letter h2,
+        .hidden-message h2,
+        .proposal h2,
+        .final-message h2 {
+            color: #ffd2ed;
+            margin-bottom: 20px;
+        }
+
+        .letter p,
+        .hidden-message p,
+        .proposal p,
+        .final-message p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #f6eaff;
+        }
+
+        .signature {
+            text-align: right;
+            color: #ffd0ed;
+            margin-top: 25px;
+            font-size: 18px;
+        }
+
+        .yes-btn {
+            background: linear-gradient(120deg, #ff70b5, #9d55c7);
+            font-size: 16px;
+        }
+
+        .no-btn {
+            background: linear-gradient(120deg, #77718e, #514768);
+            font-size: 16px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #d0bce9;
+            line-height: 2;
+        }
+
+        /* FLOATING HEARTS */
+
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            color: #ffb8e7;
+            animation: floatUp 8s linear forwards;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            to {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* APPEAR ANIMATION */
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* CAT ANIMATIONS */
+
+        .cat {
+            font-size: 110px;
+            margin: 25px auto;
+            display: inline-block;
+        }
+
+        .dancing-cat {
+            animation: dance .45s infinite alternate;
+        }
+
+        @keyframes dance {
+            0% {
+                transform: rotate(-18deg) translateY(0) scale(1);
+            }
+
+            100% {
+                transform: rotate(18deg) translateY(-18px) scale(1.1);
+            }
+        }
+
+        .sad-cat {
+            animation: sad 1.2s infinite alternate;
+        }
+
+        @keyframes sad {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(8px);
+            }
+        }
+
+        @media(max-width:480px) {
+
+            .moon {
+                width: 48px;
+                height: 48px;
+                top: 20px;
+            }
+
+            main {
+                padding-top: 90px;
+            }
+
+            .letter {
+                padding: 22px 17px;
+            }
+
+            .cat {
+                font-size: 85px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="stars"></canvas>
+    <canvas id="fireworks"></canvas>
+
+    <div class="moon"></div>
+
+    <main>
+
+        <!-- INTRODUCTION -->
+
+        <p class="glow">
+            ✨ A LITTLE SURPRISE MADE WITH LOVE ✨
+        </p>
+
+        <h1>
+            HAPPY NEW YEAR<br>
+            2027! 🥳
+        </h1>
+
+        <p class="subtitle">
+            To my favourite person,<br>
+            my forever <span class="glow">Bestie ❤️</span>
+        </p>
+
+
+        <!-- ENVELOPE -->
+
+        <div class="envelope-area">
+
+            <div class="envelope" id="envelope" onclick="openLetter()">
+
+                <div class="envelope-label">
+                    SURPRISE FOR YOU ❤️
+                </div>
+
+            </div>
+
+            <p style="margin-top:20px;color:#e6d6ff">
+                💌 Tap the envelope to open your surprise
+            </p>
+
+        </div>
+
+
+        <!-- PERSONAL LETTER -->
+
+        <section class="letter" id="letter">
+
+            <h2>Dear Friend ❤️</h2>
+
+            <p>
+                If I don't text you, it doesn't mean I don't miss you.
+                If I don't call you, it doesn't mean I stopped thinking
+                about you.
+            </p>
+
+            <p>
+                My heart always wants you to know that
+
+                <span class="glow">
+                    "You're my best friend forever"
+                </span>
+
+                and no one can ever be my best friend like you.
+            </p>
+
+            <p>
+                They can try to replace you, but they will never be able
+                to because you're special, you're cute, you're
+                understanding, you're caring, and you're always there
+                for me.
+            </p>
+
+            <p>
+                You mean a lot to me. ❤️
+            </p>
+
+            <p>
+                May this New Year bring you endless happiness,
+                beautiful memories, success, good health and all the
+                little things your heart wishes for.
+            </p>
+
+            <div class="signature">
+
+                HAPPY NEW YEAR 2027! 🥳<br>
+                Your forever friend ❤️
+
+            </div>
+
+        </section>
+
+
+        <!-- SURPRISE BUTTON -->
+
+        <button id="surpriseBtn" onclick="showSurprise()" style="display:none">
+
+            🎁 ONE LAST SURPRISE
+
+        </button>
+
+
+        <!-- ONE PROMISE -->
+
+        <section class="hidden-message" id="hiddenMessage">
+
+            <h2>One Promise! 💗</h2>
+
+            <p>
+                No matter how busy life gets, how far we go, or how
+                many new people we meet, I hope we never lose this
+                beautiful friendship.
+            </p>
+
+            <p class="glow">
+                Different days, different journeys,<br>
+                but one friendship forever. 🫂
+            </p>
+
+            <p>
+                You will always have a special place in my heart.
+            </p>
+
+        </section>
+
+
+        <!-- FRIENDSHIP QUESTION -->
+
+        <section class="proposal" id="proposal">
+
+            <h2>One Last Question... 🥺❤️</h2>
+
+            <p>
+                We have shared laughs, memories, silly conversations
+                and countless little moments.
+            </p>
+
+            <p class="glow" style="font-size:21px">
+
+                Will you be my BESTIE FOREVER? 💗
+
+            </p>
+
+            <p>
+                Not just for 2027, but for all the beautiful years ahead!
+            </p>
+
+            <button class="yes-btn" onclick="answerYes()">
+
+                YES, FOREVER! ❤️
+
+            </button>
+
+            <button class="no-btn" onclick="answerNo()">
+
+                NO 🥺
+
+            </button>
+
+        </section>
+
+
+        <!-- YES RESPONSE -->
+
+        <section class="final-message" id="finalMessage">
+
+            <h2>YAYYYYY! 🥳❤️</h2>
+
+            <div class="cat dancing-cat">
+                🐱💃
+            </div>
+
+            <p class="glow" style="font-size:22px">
+
+                OFFICIALLY BESTIES FOREVER! 💗
+
+            </p>
+
+            <p>
+                Here's to endless laughter, stupid jokes,
+                random calls, unforgettable memories
+                and a friendship that keeps growing.
+            </p>
+
+            <p>
+                Thank you for being part of my journey.
+                Let's make 2027 unforgettable! 🫂
+            </p>
+
+            <h2>HAPPY NEW YEAR, BESTIE! 🎆</h2>
+
+        </section>
+
+
+        <!-- NO RESPONSE -->
+
+        <section class="final-message" id="noMessage">
+
+            <h2>Ohhh Nooo! 🥺</h2>
+
+            <div class="cat sad-cat">
+                😿
+            </div>
+
+            <p class="glow" style="font-size:21px">
+
+                MY LITTLE CAT IS SAD NOW!
+
+            </p>
+
+            <p>
+                It's okay! No pressure.
+                Your choice matters, and our memories
+                will always be special. ❤️
+            </p>
+
+            <p>
+                Sending you a little cat hug! 🐱
+            </p>
+
+            <p>
+                Hope this little cat makes you smile! 💗
+            </p>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            Made with love, memories & endless wishes ✨
+
+            <br>
+
+            Here's to another beautiful year of friendship!
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+
+        // ========================
+        // STAR ANIMATION
+        // ========================
+
+        const starCanvas = document.getElementById("stars");
+        const sctx = starCanvas.getContext("2d");
+
+        let stars = [];
+
+        function resizeStars() {
+
+            starCanvas.width = innerWidth;
+            starCanvas.height = innerHeight;
+
+            stars = Array.from({ length: 120 }, () => ({
+
+                x: Math.random() * innerWidth,
+                y: Math.random() * innerHeight,
+                r: Math.random() * 1.8 + .3,
+                a: Math.random()
+
+            }));
+
+        }
+
+        function drawStars() {
+
+            sctx.clearRect(
+                0, 0,
+                starCanvas.width,
+                starCanvas.height
+            );
+
+            stars.forEach(s => {
+
+                s.a += (Math.random() - .5) * .08;
+
+                s.a = Math.max(.15, Math.min(1, s.a));
+
+                sctx.fillStyle =
+                    `rgba(255,245,255,${s.a})`;
+
+                sctx.beginPath();
+
+                sctx.arc(
+                    s.x,
+                    s.y,
+                    s.r,
+                    0,
+                    Math.PI * 2
+                );
+
+                sctx.fill();
+
+            });
+
+            requestAnimationFrame(drawStars);
+
+        }
+
+        resizeStars();
+        drawStars();
+
+        addEventListener("resize", resizeStars);
+
+
+        // ========================
+        // FLOATING HEARTS
+        // ========================
+
+        function createHeart() {
+
+            const heart = document.createElement("div");
+
+            heart.className = "heart";
+
+            heart.textContent =
+                Math.random() > .5 ? "♡" : "♥";
+
+            heart.style.left =
+                Math.random() * 100 + "vw";
+
+            heart.style.fontSize =
+                (15 + Math.random() * 18) + "px";
+
+            heart.style.animationDuration =
+                (6 + Math.random() * 5) + "s";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 11000);
+
+        }
+
+        setInterval(createHeart, 650);
+
+
+        // ========================
+        // OPEN ENVELOPE
+        // ========================
+
+        let opened = false;
+
+        function openLetter() {
+
+            if (opened) return;
+
+            opened = true;
+
+            document
+                .getElementById("envelope")
+                .classList.add("open");
+
+            setTimeout(() => {
+
+                const letter =
+                    document.getElementById("letter");
+
+                letter.style.display = "block";
+
+                document.getElementById("surpriseBtn")
+                    .style.display = "inline-block";
+
+                letter.scrollIntoView({
+
+                    behavior: "smooth",
+                    block: "center"
+
+                });
+
+                launchCelebration();
+
+            }, 800);
+
+        }
+
+
+        // ========================
+        // HIDDEN SURPRISE
+        // ========================
+
+        function showSurprise() {
+
+            const message =
+                document.getElementById("hiddenMessage");
+
+            message.style.display = "block";
+
+            document.getElementById("surpriseBtn")
+                .style.display = "none";
+
+            launchCelebration();
+
+            setTimeout(() => {
+
+                const proposal =
+                    document.getElementById("proposal");
+
+                proposal.style.display = "block";
+
+                proposal.scrollIntoView({
+
+                    behavior: "smooth",
+                    block: "center"
+
+                });
+
+            }, 1000);
+
+            message.scrollIntoView({
+
+                behavior: "smooth",
+                block: "center"
+
+            });
+
+        }
+
+
+        // ========================
+        // YES RESPONSE
+        // ========================
+
+        function answerYes() {
+
+            document.getElementById("proposal")
+                .style.display = "none";
+
+            const finalMessage =
+                document.getElementById("finalMessage");
+
+            finalMessage.style.display = "block";
+
+            finalMessage.scrollIntoView({
+
+                behavior: "smooth",
+                block: "center"
+
+            });
+
+            // Big fireworks celebration
+
+            for (let i = 0; i < 20; i++) {
+
+                setTimeout(() => {
+
+                    burst(
+                        Math.random() * canvas.width,
+                        Math.random() * canvas.height * .7
+                    );
+
+                }, i * 180);
+
+            }
+
+        }
+
+
+        // ========================
+        // NO RESPONSE
+        // ========================
+
+        function answerNo() {
+
+            document.getElementById("proposal")
+                .style.display = "none";
+
+            const noMessage =
+                document.getElementById("noMessage");
+
+            noMessage.style.display = "block";
+
+            noMessage.scrollIntoView({
+
+                behavior: "smooth",
+                block: "center"
+
+            });
+
+        }
+
+
+        // ========================
+        // FIREWORKS
+        // ========================
+
+        const canvas =
+            document.getElementById("fireworks");
+
+        const ctx = canvas.getContext("2d");
+
+        let particles = [];
+
+        function resizeFireworks() {
+
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+
+        }
+
+        resizeFireworks();
+
+        addEventListener("resize", resizeFireworks);
+
+
+        function burst(x, y) {
+
+            const colors = [
+
+                "#ffb6e6",
+                "#e5b3ff",
+                "#fff0ae",
+                "#b6d9ff",
+                "#ffffff"
+
+            ];
+
+            for (let i = 0; i < 65; i++) {
+
+                const angle =
+                    Math.random() * Math.PI * 2;
+
+                const speed =
+                    Math.random() * 4 + 1;
+
+                particles.push({
+
+                    x, y,
+
+                    vx: Math.cos(angle) * speed,
+
+                    vy: Math.sin(angle) * speed,
+
+                    life: 65,
+
+                    color:
+                        colors[Math.floor(
+                            Math.random() * colors.length
+                        )],
+
+                    size: Math.random() * 2 + 1
+
+                });
+
+            }
+
+        }
+
+
+        function animateFireworks() {
+
+            ctx.clearRect(
+                0, 0,
+                canvas.width,
+                canvas.height
+            );
+
+            particles.forEach((p, index) => {
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                p.vy += .035;
+
+                p.life--;
+
+                ctx.globalAlpha =
+                    Math.max(0, p.life / 65);
+
+                ctx.fillStyle = p.color;
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    p.x,
+                    p.y,
+                    p.size,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fill();
+
+                if (p.life <= 0) {
+
+                    particles.splice(index, 1);
+
+                }
+
+            });
+
+            ctx.globalAlpha = 1;
+
+            requestAnimationFrame(animateFireworks);
+
+        }
+
+        animateFireworks();
+
+
+        // ========================
+        // CELEBRATION
+        // ========================
+
+        function launchCelebration() {
+
+            for (let i = 0; i < 6; i++) {
+
+                setTimeout(() => {
+
+                    burst(
+                        Math.random() * canvas.width,
+                        Math.random() * canvas.height * .55
+                    );
+
+                }, i * 350);
+
+            }
+
+        }
+
+
+        // AUTOMATIC FIREWORKS
+
+        setInterval(() => {
+
+            if (Math.random() > .4) {
+
+                burst(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height * .45
+                );
+
+            }
+
+        }, 2200);
+
+
+    </script>
+
+</body>
+
+</html>
